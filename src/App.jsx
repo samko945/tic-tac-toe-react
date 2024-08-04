@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-const PLAYERS = [{ X: "Player 1" }, { O: "Player 2" }];
+import Player from "./components/Player";
+
+const PLAYERS = { X: "Player 1", O: "Player 2" };
 const INITIAL_GAME_BOARD = [
 	[null, null, null],
 	[null, null, null],
@@ -35,11 +37,18 @@ function App() {
 		setGameTurns((prev) => [{ player: activePlayer, tile: { rowIndex, colIndex } }, ...prev]);
 	}
 
+	function handleNameChange(symbol, newName) {
+		setPlayers((prev) => ({ ...prev, [symbol]: newName }));
+	}
+
 	console.log(gameTurns);
 
 	return (
 		<main>
-			<section id="players"></section>
+			<section id="players">
+				<Player initialName={players.X} symbol="X" onNameChange={handleNameChange} />
+				<Player initialName={players.O} symbol="O" onNameChange={handleNameChange} />
+			</section>
 			<section id="game-board">
 				<ol>
 					{gameBoard.map((row, rowIndex) => {
