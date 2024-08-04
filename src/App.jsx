@@ -1,5 +1,63 @@
+import { useState } from "react";
+
+const PLAYERS = [{ X: "Player 1" }, { O: "Player 2" }];
+const INITIAL_GAME_BOARD = [
+	[null, null, null],
+	[null, null, null],
+	[null, null, null],
+];
+
+function deriveActivePlayer(gameTurns) {
+	let activePlayer = "X";
+	if (gameTurns.length > 0 && gameTurns[0].player === "X") {
+		activePlayer = "O";
+	}
+	return activePlayer;
+}
+
+function deriveGameBoard(gameTurns) {
+	const gameBoard = [...INITIAL_GAME_BOARD.map((row) => [...row])];
+
+	return gameBoard;
+}
+
 function App() {
-	return <main></main>;
+	const [players, setPlayers] = useState(PLAYERS);
+	const [gameTurns, setGameTurns] = useState([]);
+	const gameBoard = deriveGameBoard(gameTurns);
+	const activePlayer = deriveActivePlayer(gameTurns);
+
+	function handleSelectSquare(rowIndex, colIndex) {
+		setGameTurns((prev) => [{ player: activePlayer, tile: { rowIndex, colIndex } }, ...prev]);
+	}
+
+	console.log(gameTurns);
+
+	return (
+		<main>
+			<section id="players"></section>
+			<section id="game-board">
+				<ol>
+					{gameBoard.map((row, rowIndex) => {
+						return (
+							<li key={rowIndex}>
+								<ol>
+									{row.map((col, colIndex) => {
+										return (
+											<li key={colIndex}>
+												<button onClick={() => handleSelectSquare(rowIndex, colIndex)}></button>
+											</li>
+										);
+									})}
+								</ol>
+							</li>
+						);
+					})}
+				</ol>
+			</section>
+			<section id="log"></section>
+		</main>
+	);
 }
 
 export default App;
