@@ -17,7 +17,11 @@ function deriveActivePlayer(gameTurns) {
 
 function deriveGameBoard(gameTurns) {
 	const gameBoard = [...INITIAL_GAME_BOARD.map((row) => [...row])];
-
+	for (const turn of gameTurns) {
+		const { player: playerSymbol, tile } = turn;
+		const { rowIndex, colIndex } = tile;
+		gameBoard[rowIndex][colIndex] = playerSymbol;
+	}
 	return gameBoard;
 }
 
@@ -42,10 +46,12 @@ function App() {
 						return (
 							<li key={rowIndex}>
 								<ol>
-									{row.map((col, colIndex) => {
+									{row.map((playerSymbol, colIndex) => {
 										return (
 											<li key={colIndex}>
-												<button onClick={() => handleSelectSquare(rowIndex, colIndex)}></button>
+												<button onClick={() => handleSelectSquare(rowIndex, colIndex)}>
+													{playerSymbol}
+												</button>
 											</li>
 										);
 									})}
