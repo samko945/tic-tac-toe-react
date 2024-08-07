@@ -10,13 +10,23 @@ export default function Player({ initialName, symbol, onNameChange }) {
 		}
 	}
 	return (
-		<div>
-			<span>{symbol}</span>
+		<div className="player">
+			<span>
+				<b>{symbol}</b>
+			</span>
 			{isEditing && (
-				<input type="text" value={playerName} onChange={(e) => setPlayerName(e.target.value)} required />
+				<input
+					className="player-name"
+					type="text"
+					value={playerName}
+					onChange={(e) => setPlayerName(e.target.value)}
+					required
+				/>
 			)}
-			{!isEditing && <span>{playerName}</span>}
-			<button onClick={toggleEditMode}>{isEditing ? "Save" : "Edit"}</button>
+			{!isEditing && <span className="player-name">{playerName}</span>}
+			<button onClick={toggleEditMode} className="edit-player">
+				{isEditing ? "Save" : "Edit"}
+			</button>
 		</div>
 	);
 }

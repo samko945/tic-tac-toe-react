@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Player from "./components/Player";
 
-const PLAYERS = { X: "Player 1", O: "Player 2" };
+const PLAYERS = { O: "Player 1", X: "Player 2" };
 const INITIAL_GAME_BOARD = [
 	[null, null, null],
 	[null, null, null],
@@ -10,9 +10,9 @@ const INITIAL_GAME_BOARD = [
 ];
 
 function deriveActivePlayer(gameTurns) {
-	let activePlayer = "X";
-	if (gameTurns.length > 0 && gameTurns[0].player === "X") {
-		activePlayer = "O";
+	let activePlayer = "O";
+	if (gameTurns.length > 0 && gameTurns[0].player === "O") {
+		activePlayer = "X";
 	}
 	return activePlayer;
 }
@@ -46,19 +46,24 @@ function App() {
 	return (
 		<main>
 			<section id="players">
-				<Player initialName={players.X} symbol="X" onNameChange={handleNameChange} />
 				<Player initialName={players.O} symbol="O" onNameChange={handleNameChange} />
+				<Player initialName={players.X} symbol="X" onNameChange={handleNameChange} />
 			</section>
 			<section id="game-board">
-				<ol>
+				<ol id="board-rows">
 					{gameBoard.map((row, rowIndex) => {
 						return (
-							<li key={rowIndex}>
-								<ol>
+							<li key={rowIndex} className="board-row-item">
+								<ol id="board-row-cols">
 									{row.map((playerSymbol, colIndex) => {
 										return (
-											<li key={colIndex}>
-												<button onClick={() => handleSelectSquare(rowIndex, colIndex)}>
+											<li key={colIndex} className="board-row-col">
+												<button
+													onClick={() => handleSelectSquare(rowIndex, colIndex)}
+													className="board-button"
+													disabled={playerSymbol}
+													data-content={playerSymbol}
+												>
 													{playerSymbol}
 												</button>
 											</li>
