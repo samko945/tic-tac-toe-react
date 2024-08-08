@@ -27,14 +27,14 @@ function deriveGameBoard(gameTurns) {
 	return gameBoard;
 }
 
-function deriveWinner(gameBoard) {
+function deriveWinner(gameBoard, players) {
 	let winner;
 	for (const combination of WINNING_COMBINATIONS) {
 		const tileOne = gameBoard[combination[0].row][combination[0].column];
 		const tileTwo = gameBoard[combination[1].row][combination[1].column];
 		const tileThree = gameBoard[combination[2].row][combination[2].column];
 		if (tileOne !== null && tileOne === tileTwo && tileOne === tileThree) {
-			winner = tileOne;
+			winner = players[tileOne];
 		}
 	}
 	return winner;
@@ -46,7 +46,7 @@ function App() {
 	const gameBoard = deriveGameBoard(gameTurns);
 	const activePlayer = deriveActivePlayer(gameTurns);
 
-	const winner = deriveWinner(gameBoard);
+	const winner = deriveWinner(gameBoard, players);
 
 	const hasDraw = gameTurns.length === 9 && !winner;
 
@@ -56,6 +56,10 @@ function App() {
 
 	function handleNameChange(symbol, newName) {
 		setPlayers((prev) => ({ ...prev, [symbol]: newName }));
+	}
+
+	function handleRestart() {
+		setGameTurns([]);
 	}
 
 	return (
@@ -90,6 +94,15 @@ function App() {
 					})}
 				</ol>
 			</section>
+			{(winner || hasDraw) && (
+				<section id="game-over">
+					<div>
+						{winner && <p>{winner} has won!</p>}
+						{hasDraw && <p>It&apos;s a draw!</p>}
+					</div>
+					<button onClick={handleRestart}>Play again!</button>
+				</section>
+			)}
 			<section id="log"></section>
 		</main>
 	);
