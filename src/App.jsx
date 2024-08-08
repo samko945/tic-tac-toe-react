@@ -65,8 +65,18 @@ function App() {
 	return (
 		<main>
 			<section id="players">
-				<Player initialName={players.O} symbol="O" onNameChange={handleNameChange} />
-				<Player initialName={players.X} symbol="X" onNameChange={handleNameChange} />
+				<Player
+					initialName={players.O}
+					symbol="O"
+					onNameChange={handleNameChange}
+					isActive={activePlayer === "O"}
+				/>
+				<Player
+					initialName={players.X}
+					symbol="X"
+					onNameChange={handleNameChange}
+					isActive={activePlayer === "X"}
+				/>
 			</section>
 			<section id="game-board">
 				<ol id="board-rows">

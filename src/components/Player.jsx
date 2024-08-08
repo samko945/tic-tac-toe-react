@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol, onNameChange }) {
+export default function Player({ initialName, symbol, onNameChange, isActive }) {
 	const [playerName, setPlayerName] = useState(initialName);
 	const [isEditing, setIsEditing] = useState(false);
 	function toggleEditMode() {
@@ -10,7 +10,7 @@ export default function Player({ initialName, symbol, onNameChange }) {
 		}
 	}
 	return (
-		<div className="player">
+		<div className={`player ${isActive && "active"}`}>
 			<span>
 				<b>{symbol}</b>
 			</span>
