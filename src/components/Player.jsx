@@ -21,6 +21,7 @@ export default function Player({ initialName, symbol, onNameChange }) {
 					value={playerName}
 					onChange={(e) => setPlayerName(e.target.value)}
 					required
+					autoFocus
 				/>
 			)}
 			{!isEditing && <span className="player-name">{playerName}</span>}

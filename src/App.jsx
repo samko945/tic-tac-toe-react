@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { WINNING_COMBINATIONS } from "./winning-combinations";
 import Player from "./components/Player";
 
 const PLAYERS = { O: "Player 1", X: "Player 2" };
@@ -27,11 +27,28 @@ function deriveGameBoard(gameTurns) {
 	return gameBoard;
 }
 
+function deriveWinner(gameBoard) {
+	let winner;
+	for (const combination of WINNING_COMBINATIONS) {
+		const tileOne = gameBoard[combination[0].row][combination[0].column];
+		const tileTwo = gameBoard[combination[1].row][combination[1].column];
+		const tileThree = gameBoard[combination[2].row][combination[2].column];
+		if (tileOne !== null && tileOne === tileTwo && tileOne === tileThree) {
+			winner = tileOne;
+		}
+	}
+	return winner;
+}
+
 function App() {
 	const [players, setPlayers] = useState(PLAYERS);
 	const [gameTurns, setGameTurns] = useState([]);
 	const gameBoard = deriveGameBoard(gameTurns);
 	const activePlayer = deriveActivePlayer(gameTurns);
+
+	const winner = deriveWinner(gameBoard);
+
+	const hasDraw = gameTurns.length === 9 && !winner;
 
 	function handleSelectSquare(rowIndex, colIndex) {
 		setGameTurns((prev) => [{ player: activePlayer, tile: { rowIndex, colIndex } }, ...prev]);
@@ -40,8 +57,6 @@ function App() {
 	function handleNameChange(symbol, newName) {
 		setPlayers((prev) => ({ ...prev, [symbol]: newName }));
 	}
-
-	console.log(gameTurns);
 
 	return (
 		<main>
