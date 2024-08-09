@@ -92,6 +92,9 @@ function App() {
 													className="board-button"
 													disabled={playerSymbol}
 													data-content={playerSymbol}
+													style={
+														!playerSymbol ? { "--hoverSymbol": `"${activePlayer}"` } : null
+													}
 												>
 													{playerSymbol}
 												</button>
