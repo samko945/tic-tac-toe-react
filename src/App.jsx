@@ -34,7 +34,9 @@ function deriveWinner(gameBoard, players) {
 		const tileTwo = gameBoard[combination[1].row][combination[1].column];
 		const tileThree = gameBoard[combination[2].row][combination[2].column];
 		if (tileOne !== null && tileOne === tileTwo && tileOne === tileThree) {
-			winner = players[tileOne];
+			winner = {};
+			winner.symbol = tileOne;
+			winner.name = players[tileOne];
 		}
 	}
 	return winner;
@@ -43,6 +45,7 @@ function deriveWinner(gameBoard, players) {
 function App() {
 	const [players, setPlayers] = useState(PLAYERS);
 	const [gameTurns, setGameTurns] = useState([]);
+	const [gameWins, setGameWins] = useState({ O: 0, X: 0 });
 	const gameBoard = deriveGameBoard(gameTurns);
 	const activePlayer = deriveActivePlayer(gameTurns);
 
@@ -60,6 +63,9 @@ function App() {
 
 	function handleRestart() {
 		setGameTurns([]);
+		if (!hasDraw) {
+			setGameWins((prev) => ({ ...prev, [winner.symbol]: prev[winner.symbol] + 1 }));
+		}
 	}
 
 	return (
@@ -70,12 +76,14 @@ function App() {
 					symbol="O"
 					onNameChange={handleNameChange}
 					isActive={activePlayer === "O"}
+					wins={gameWins.O}
 				/>
 				<Player
 					initialName={players.X}
 					symbol="X"
 					onNameChange={handleNameChange}
 					isActive={activePlayer === "X"}
+					wins={gameWins.X}
 				/>
 			</section>
 			<section id="game-board">
@@ -110,7 +118,7 @@ function App() {
 			{(winner || hasDraw) && (
 				<section id="game-over">
 					<div>
-						{winner && <p>{winner} has won!</p>}
+						{winner && <p>{winner.name} has won!</p>}
 						{hasDraw && <p>It&apos;s a draw!</p>}
 					</div>
 					<button onClick={handleRestart}>Play again!</button>

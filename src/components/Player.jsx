@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Player({ initialName, symbol, onNameChange, isActive }) {
+export default function Player({ initialName, symbol, onNameChange, isActive, wins }) {
 	const [playerName, setPlayerName] = useState(initialName);
 	const [isEditing, setIsEditing] = useState(false);
 	function toggleEditMode() {
@@ -13,6 +13,7 @@ export default function Player({ initialName, symbol, onNameChange, isActive }) 
 		<div className={`player ${isActive && "active"}`}>
 			<span>
 				<b>{symbol}</b>
+				{wins > 0 && <span className="win-count">{wins}</span>}
 			</span>
 			{isEditing && (
 				<input

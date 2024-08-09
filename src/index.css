@@ -80,6 +80,7 @@ h1 {
 	user-select: none;
 	font-size: 6rem;
 	font-weight: 200;
+	margin-bottom: 2rem;
 }
 
 #players {
@@ -97,6 +98,7 @@ h1 {
 	background-color: rgb(230, 230, 230);
 	border-radius: 100vh;
 	padding: 0.2rem 0.6rem;
+	position: relative;
 }
 
 .player.active {
@@ -137,6 +139,24 @@ h1 {
 
 .player * {
 	margin: 0.2rem;
+}
+
+.player:nth-of-type(1) .win-count {
+	position: absolute;
+	left: -4.2rem;
+}
+.player:nth-of-type(2) .win-count {
+	position: absolute;
+	right: -4.2rem;
+}
+
+.win-count {
+	color: rgba(213, 65, 65, 0.547);
+	z-index: -100;
+	font-size: 6rem;
+	font-weight: 800;
+	font-family: "Poppins";
+	line-height: 0;
 }
 
 #game-board {
