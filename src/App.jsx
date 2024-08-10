@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { WINNING_COMBINATIONS } from "./winning-combinations";
 import Player from "./components/Player";
+import Log from "./components/Log";
 
 const PLAYERS = { O: "Player 1", X: "Player 2" };
 const INITIAL_GAME_BOARD = [
@@ -124,7 +125,7 @@ function App() {
 					<button onClick={handleRestart}>Play again!</button>
 				</section>
 			)}
-			<section id="log"></section>
+			<Log gameTurns={gameTurns} />
 		</main>
 	);
 }
