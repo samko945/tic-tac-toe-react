@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { WINNING_COMBINATIONS } from "./winning-combinations";
 import Player from "./components/Player";
+import GameBoard from "./components/GameBoard";
 import Log from "./components/Log";
+import GameOver from "./components/GameOver";
 
 const PLAYERS = { O: "Player 1", X: "Player 2" };
 const INITIAL_GAME_BOARD = [
@@ -87,44 +89,8 @@ function App() {
 					wins={gameWins.X}
 				/>
 			</section>
-			<section id="game-board">
-				<ol id="board-rows">
-					{gameBoard.map((row, rowIndex) => {
-						return (
-							<li key={rowIndex} className="board-row-item">
-								<ol id="board-row-cols">
-									{row.map((playerSymbol, colIndex) => {
-										return (
-											<li key={colIndex} className="board-row-col">
-												<button
-													onClick={() => handleSelectSquare(rowIndex, colIndex)}
-													className="board-button"
-													disabled={playerSymbol}
-													data-content={playerSymbol}
-													style={
-														!playerSymbol ? { "--hoverSymbol": `"${activePlayer}"` } : null
-													}
-												>
-													{playerSymbol}
-												</button>
-											</li>
-										);
-									})}
-								</ol>
-							</li>
-						);
-					})}
-				</ol>
-			</section>
-			{(winner || hasDraw) && (
-				<section id="game-over">
-					<div>
-						{winner && <p>{winner.name} has won!</p>}
-						{hasDraw && <p>It&apos;s a draw!</p>}
-					</div>
-					<button onClick={handleRestart}>Play again!</button>
-				</section>
-			)}
+			<GameBoard gameBoard={gameBoard} activePlayer={activePlayer} onSelectSquare={handleSelectSquare} />
+			{(winner || hasDraw) && <GameOver winner={winner} hasDraw={hasDraw} onRestart={handleRestart} />}
 			<Log gameTurns={gameTurns} />
 		</main>
 	);
